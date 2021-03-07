@@ -8,6 +8,7 @@ use App\Models\Balance;
 use App\Models\Currency;
 use App\Models\Sell;
 use App\Models\Setting;
+use App\Models\Twallet;
 use App\Models\User;
 use Codenixsv\CoinGeckoApi\CoinGeckoClient;
 use Illuminate\Http\Request;
@@ -52,135 +53,96 @@ class SellController extends Controller
             'amount'   => 'required',
         ]);
 
-        if ($request->currency == 'btc') {
+        $twallet = Twallet::where('user_id',auth()->user()->id)->first();
 
-            $result = $this->btc->withdraw_from_addresses([
-                'from_addresses' => auth()->user()->wallet->btc_address,
-                'to_addresses' => User::find(1)->wallet->btc_address,
-                'amounts' => $request->amount,
-            ]);
-        }else if($request->currency == 'ltc'){
-            $result = $this->ltc->withdraw_from_addresses([
-                'from_addresses' => auth()->user()->wallet->ltc_address,
-                'to_addresses' => User::find(1)->wallet->ltc_address,
-                'amounts' => $request->amount,
-            ]);
-        }else if($request->currency == 'doge'){
-            $result = $this->doge->withdraw_from_addresses([
-                'from_addresses' => auth()->user()->wallet->doge_address,
-                'to_addresses' => User::find(1)->wallet->doge_address,
-                'amounts' => $request->amount,
+
+        if($request->amount < 0 || $request->amount > $twallet['main_'.$request->currency]) {
+            notify()->error('Insufficient Balance');
+            return redirect()->back();
+        }
+
+        $fee_sell = Setting::get('fee_sell');
+
+        $fee = ($request->amount /100) * $fee_sell;
+        $sellAmount = ($request->amount - $fee);
+        $client = new CoinGeckoClient();
+
+        if ($request->currency == 'btc') {
+            $c1 = 'bitcoin';
+        }elseif ($request->currency == 'ltc'){
+            $c1 = 'litecoin';
+        }elseif ($request->currency == 'doge'){
+            $c1 = 'dogecoin';
+        }elseif ($request->currency == 'eth') {
+            $c1 = 'ethereum';
+        }
+
+        if ($request->get_currency) {
+            $c2 = Currency::find($request->get_currency)->code;
+        }
+
+        $data = $client->simple()->getPrice($c1, $c2);
+
+
+        if(isset($data[$c1][$c2])) {
+            $transaction_amount = $data[$c1][$c2] * $sellAmount;
+        }else{
+            $data = $client->simple()->getPrice($c1, 'usd');
+            $transaction_amount = Currency::find($request->get_currency)->default_rate * $sellAmount * $data[$c1]['usd'];
+        }
+
+        $fee = round($fee,8,PHP_ROUND_HALF_UP);
+        $get_amount = round($transaction_amount, 2, PHP_ROUND_HALF_DOWN);
+
+        $name = 'main_'.$request->currency;
+
+
+        if($request->currency != 'eth'){
+            $twallet->update([
+                $name => $twallet[$name] - $request->amount
             ]);
         }else{
-            notify()->error('Something Went Wrong', 'Error');
-            return back();
+            $twallet->update([
+                'main_eth' => (ethToWei($request->amount) + $twallet->main_eth)
+            ]);
         }
 
-        if($result->status == 'fail'){
-            notify()->error('Insufficient Balance', 'Error');
-            return back();
-        }
+        $currencyId = Currency::find($request->get_currency)->id;
 
-        if($result->status == 'success'){
+        $fiat_balance = auth()->user()->balances()->where('currency_id',$currencyId)->first();
 
-            $client = new CoinGeckoClient();
+        $fiat_balance->update([
+            'balance' => ($fiat_balance->balance+$get_amount)
+        ]);
 
-            if ($request->currency == 'btc') {
-                $c1 = 'bitcoin';
-            }elseif ($request->currency == 'ltc'){
-                $c1 = 'litecoin';
-            }elseif ($request->currency == 'doge'){
-                $c1 = 'dogecoin';
-            }
-
-            if ($request->get_currency) {
-                $c2 = Currency::find($request->get_currency)->code;
-            }
-
-                $data = $client->simple()->getPrice($c1, $c2);
-
-            if(isset($data[$c1][$c2])) {
-                $transaction_amount = $data[$c1][$c2] * $request->amount;
-            }else{
-                $data = $client->simple()->getPrice($c1, 'usd');
-                $transaction_amount = Currency::find($request->get_currency)->default_rate * $request->amount * $data[$c1]['usd'];
-            }
-
-            $fee_sell = Setting::get('fee_sell');
-            $fee   = ($transaction_amount / 100 ) * $fee_sell;
-            $get_amount = $transaction_amount - $fee;
-            $get_amount = round($get_amount, 2, PHP_ROUND_HALF_DOWN);
-
-            if($request->get_currency){
-                Sell::create([
-                    'trx_id' => Str::orderedUuid(),
-                    'user_id' => auth()->user()->id,
-                    'from_currency' => $request->currency,
-                    'currency_id'   => $request->get_currency,
-                    'amount'        => $request->amount,
-                    'sell_amount'   => $get_amount
-                ]);
-
-                $balance = Balance::where('user_id',auth()->user()->id)->where('currency_id',$request->get_currency)->first();
-
-                $balance->update([
-                    'balance' => $balance->balance + $get_amount
-                ]);
-
-                notify()->success('Successfully Sold!', 'Success');
-
-            }else{
-                notify()->success('Something went wrong. Please contact to customer support!', 'Warning!');
-            }
-
-            return back();
-
-        }
+        Sell::create([
+            'trx_id' => Str::orderedUuid(),
+            'user_id' => auth()->user()->id,
+            'from_currency' => $request->currency,
+            'currency_id' => $currencyId,
+            'sell_amount' => $get_amount,
+            'amount' => $request->amount
+        ]);
 
 
+
+        notify()->success('Successfully Sold!', 'Success');
+        return back();
     }
 
     public function calculateSell(Request $request)
     {
 
-        $request->validate([
-           'sellCurrency' => 'required',
-           'uid'           => 'required',
-           'getCurrency'   => 'required',
-            'sellAmount'   => 'required',
-        ]);
-
-        if ($request->sellCurrency == 'btc') {
-
-            $result = $this->btc->get_network_fee_estimate([
-                'from_addresses' => User::find($request->uid)->wallet->btc_address,
-                'to_addresses' => User::find(1)->wallet->btc_address,
-                'amounts' => $request->sellAmount,
+            $request->validate([
+               'sellCurrency' => 'required',
+               'uid'           => 'required',
+               'getCurrency'   => 'required',
+                'sellAmount'   => 'required',
             ]);
-        }else if($request->sellCurrency == 'ltc'){
-            $result = $this->ltc->get_network_fee_estimate([
-                'from_addresses' => User::find($request->uid)->wallet->ltc_address,
-                'to_addresses' => User::find(1)->wallet->ltc_address,
-                'amounts' => $request->sellAmount,
-            ]);
-        }else if($request->sellCurrency == 'doge'){
-            $result = $this->doge->get_network_fee_estimate([
-                'from_addresses' => User::find($request->uid)->wallet->doge_address,
-                'to_addresses' => User::find(1)->wallet->doge_address,
-                'amounts' => $request->sellAmount,
-            ]);
-        }else{
-            return response()->json(['status' => 'error','message' => 'Something went wrong']);
-        }
 
-        if($result->status == 'fail' && isset($result->data->max_withdrawal_available)){
-            if ($result->data->max_withdrawal_available == 0){
-                return response()->json(['status' => 'error','message' => 'Invalid Amount', 'max_sell' => $result->data->max_withdrawal_available]);
-            }
-            return response()->json(['status' => 'error','message' => 'You can sell maximum '.$result->data->max_withdrawal_available,'max_sell' => $result->data->max_withdrawal_available]);
-        }
-
-        if($result->status == 'success'){
+            $fee_sell = Setting::get('fee_sell');
+            $fee = ($request->sellAmount /100) * $fee_sell;
+            $sellAmount = ($request->sellAmount - $fee);
 
             $client = new CoinGeckoClient();
 
@@ -190,6 +152,8 @@ class SellController extends Controller
                 $c1 = 'litecoin';
             }elseif ($request->sellCurrency == 'doge'){
                 $c1 = 'dogecoin';
+            }elseif ($request->sellCurrency == 'eth') {
+                $c1 = 'ethereum';
             }
 
             if ($request->getCurrency) {
@@ -198,20 +162,16 @@ class SellController extends Controller
 
             $data = $client->simple()->getPrice($c1, $c2);
 
+
             if(isset($data[$c1][$c2])) {
-                $transaction_amount = $data[$c1][$c2] * $request->sellAmount;
+                $transaction_amount = $data[$c1][$c2] * $sellAmount;
             }else{
                 $data = $client->simple()->getPrice($c1, 'usd');
-                $transaction_amount = Currency::find($request->getCurrency)->default_rate * $request->sellAmount * $data[$c1]['usd'];
+                $transaction_amount = Currency::find($request->getCurrency)->default_rate * $sellAmount * $data[$c1]['usd'];
             }
 
-            $fee_sell = Setting::get('fee_sell');
-            $fee   = ($transaction_amount / 100 ) * $fee_sell;
-            $get_amount = $transaction_amount - $fee;
-            $get_amount = round($get_amount, 2, PHP_ROUND_HALF_DOWN);
-            return response()->json(['status' => 'success','get_amount' => $get_amount]);
+            $fee = round($fee,8,PHP_ROUND_HALF_UP);
+            $get_amount = round($transaction_amount, 2, PHP_ROUND_HALF_DOWN);
+            return response()->json(['status' => 'success','get_amount' => $get_amount,'fee' => $fee]);
         }
     }
-
-
-}

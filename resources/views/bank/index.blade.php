@@ -43,6 +43,7 @@
                                     <th>Account Holder</th>
                                     <th>Account No</th>
                                     <th>Swift Code</th>
+                                    <th>Routing Number</th>
                                     <th>Branch Details</th>
                                     <th>Action</th>
                                 </tr>
@@ -54,8 +55,9 @@
                                         <td>{{$bank->bank_name}}</td>
                                         <td>{{$bank->account_holder}}</td>
                                         <td>{{$bank->account_no}}</td>
-                                        <td>{{$bank->swift_code}}</td>
-                                        <td>{{$bank->branch_details}}</td>
+                                        <td>{{$bank->swift_code ?? ''}}</td>
+                                        <td>{{$bank->routing_number ?? ''}}</td>
+                                        <td>{{$bank->branch_details ?? ''}}</td>
                                         <td>
                                             <a href="{{route('banks.edit',$bank->id)}}" class="btn btn-sm round btn-outline-info"> Edit </a>
                                             <button onclick="deleteData({{ $bank->id }})" class="btn btn-sm round btn-outline-danger"> Delete </button>

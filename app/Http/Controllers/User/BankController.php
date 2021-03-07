@@ -27,8 +27,9 @@ class BankController extends Controller
             'bank_name' => 'required|string',
             'account_holder' => 'required|string',
             'account_no' => 'required|string',
-            'swift_code' => 'required|string',
-            'branch_details' => 'required|string',
+            'swift_code' => 'string',
+            'routing_number' => 'string',
+            'branch_details' => 'string',
         ]);
 
         $bank = Bank::create([
@@ -37,12 +38,13 @@ class BankController extends Controller
             'account_holder' => $request->account_holder,
             'account_no' => $request->account_no,
             'swift_code' => $request->swift_code,
+            'routing_number' => $request->routing_number,
             'branch_details' => $request->branch_details,
         ]);
 
         notify()->success('Bank Added', 'Success');
 
-        return back();
+        return redirect()->route('home');
     }
 
     public function edit(Bank $bank)
@@ -56,8 +58,9 @@ class BankController extends Controller
             'bank_name' => 'required|string',
             'account_holder' => 'required|string',
             'account_no' => 'required|string',
-            'swift_code' => 'required|string',
-            'branch_details' => 'required|string',
+            'swift_code' => 'string',
+            'routing_number' => 'string',
+            'branch_details' => 'string',
         ]);
 
         $bank->update([
@@ -66,6 +69,7 @@ class BankController extends Controller
             'account_holder' => $request->account_holder,
             'account_no' => $request->account_no,
             'swift_code' => $request->swift_code,
+            'routing_number' => $request->routing_number,
             'branch_details' => $request->branch_details,
         ]);
         notify()->success('Bank Updated', 'Success');

@@ -33,6 +33,7 @@
                                             <option value="btc">BTC</option>
                                             <option value="ltc">LTC</option>
                                             <option value="doge">DOGE</option>
+                                            <option value="eth">ETH</option>
                                         </select>
                                     </div>
                                 </div>
@@ -55,6 +56,14 @@
                                 <div class="col-sm-9">
                                     <div class="input-group">
                                         <input type="text" class="form-control form-type" id="sell_amount" name="amount" placeholder="Enter Amount">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="fee" class="col-sm-3 control-label">Fee</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control form-type" id="fee" name="fee" placeholder="Fee">
                                     </div>
                                 </div>
                             </div>
@@ -141,6 +150,7 @@
         const sell_currency = document.getElementById('sell_currency');
         const get_currency  = document.getElementById('get_currency');
         const sell_amount   = document.getElementById('sell_amount');
+        const fee           = document.getElementById('fee');
         const get_amount    = document.getElementById('get_amount');
         const uid           = {{auth()->user()->id}};
 
@@ -161,6 +171,7 @@
                         if(getCurrency){
                             console.log(data);
                             get_amount.value = data.get_amount;
+                            fee.value = data.fee;
                             $('#send').show();
                         }else{
                             Swal.fire({

@@ -49,7 +49,8 @@ class BtcController extends Controller
         $request->validate([
            'to_address' => 'required|string',
            'amount'     => 'required',
-            'uid'       => 'required'
+            'uid'       => 'required',
+
         ]);
 
         return response()->json($this->calculate_fee($request->to_address,$request->amount,$request->uid));

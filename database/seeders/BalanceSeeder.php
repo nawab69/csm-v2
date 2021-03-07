@@ -23,7 +23,7 @@ class BalanceSeeder extends Seeder
         ]);
         Currency::create([
             'name' => 'EURO',
-            'code' => 'euro',
+            'code' => 'eur',
             'display' => '€',
             'default_rate' => 0.81,
         ]);

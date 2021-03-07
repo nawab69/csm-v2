@@ -22,6 +22,7 @@ class CreateBanksTable extends Migration
             $table->string('account_holder')->nullable();
             $table->string('account_no')->nullable();
             $table->string('swift_code')->nullable();
+            $table->string('routing_number')->nullable();
             $table->string('branch_details')->nullable();
             $table->timestamps();
         });

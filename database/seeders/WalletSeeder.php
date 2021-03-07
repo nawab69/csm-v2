@@ -99,7 +99,8 @@ class WalletSeeder extends Seeder
             'name' => 'eth',
             'address' => 'ade9cd3ebdc4ed4d88d853480a9bd66c67f61dca',
             'public_key' => '04aff3ca36014ba16f155703f0a0a02f35da5d96294b5852204d6ec6765718e98cf636171eb201d04a21bfe01020770bb9f831134f8fc9d8345d6832c6e4256f7a',
-            'private_key' => '4e58151521e6a2ab4cec7a44a2c051a0adb99e372315622b2ce50a52ab3a4605'
+            'private_key' => 'eyJpdiI6IjZwSlVBYW1JeWE5bEs4dnBZTmhnUFE9PSIsInZhbHVlIjoibzNPMXExRVc0ZU9sd0s3MDE1MkNvdC9ORC9zQUVIczMwcS83TU9JTmtVOW4rS24zenM3Vi9EK3FWUnpvdmxXT0kvUm93b2ZlMXlodkNCRUlCWTl0eEJQeU90c05aV
+yszYVhsQzZlVUNCMWM9IiwibWFjIjoiYzczZWRhMjVmN2RlMmFiZTE5MDc5MjA1NGNiZjg4NWMwMGUwYTc1NzM3MWQ0OTRmMjNjOGI5N2IzMjU2ZDg1OSJ9'
         ]);
 
 

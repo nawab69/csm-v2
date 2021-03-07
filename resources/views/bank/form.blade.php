@@ -74,7 +74,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="swift_code" class="col-sm-3 control-label">Swift Code*</label>
+                                <label for="swift_code" class="col-sm-3 control-label">Swift Code </label>
                                 <div class="col-sm-9">
                                     <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-hashtag"></i></div>
@@ -83,12 +83,28 @@
                                                id="swift_code"
                                                placeholder="Swift Code"
                                                value="{{$bank->swift_code ?? ''}}"
-                                               required autofocus>
+                                               autofocus>
                                     </div>
                                 </div>
                             </div>
+
                             <div class="form-group row">
-                                <label for="branch_details" class="col-sm-3 control-label">Branch Details *</label>
+                                <label for="routing_number" class="col-sm-3 control-label">Routing Number </label>
+                                <div class="col-sm-9">
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-hashtag"></i></div>
+                                        <input type="text" name="routing_number"
+                                               class="form-control form-type"
+                                               id="routing_number"
+                                               placeholder="Routing Number"
+                                               value="{{$bank->routing_number ?? ''}}"
+                                               autofocus>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="branch_details" class="col-sm-3 control-label">Branch Details</label>
                                 <div class="col-sm-9">
                                     <div class="input-group">
                                         <textarea type="text" rows="2" style="height: 100%" class="form-control" id="branch_details" name="branch_details" placeholder="Enter your Branch / Bank Address">{{$bank->branch_details ?? ''}}</textarea>

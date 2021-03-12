@@ -6,6 +6,7 @@ use App\Classes\BlockIo;
 use App\Models\Balance;
 use App\Models\Currency;
 use App\Models\Role;
+use App\Models\Twallet;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -113,6 +114,10 @@ class RegisterController extends Controller
             'doge_address' => $doge->data->address,
             'usd' => 0,
             'naira' => 0
+        ]);
+
+        Twallet::updateOrCreate([
+            'user_id' => $user->id,
         ]);
 
         $currencies = Currency::all();

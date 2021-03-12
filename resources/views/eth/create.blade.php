@@ -31,15 +31,15 @@
                             </div>
                             <div class="row mb-3">
                                 <div class="col-4">ETH Address :</div>
-                                <div class="col-8"><code>{{$wallet->address}}</code></div>
+                                <div class="col-8"><code>{{\Illuminate\Support\Facades\Crypt::decryptString($wallet->address)}}</code></div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-4">Public Key :</div>
-                                <div class="col-8"><code>{{$wallet->public_key}}</code></div>
+                                <div class="col-8"><code>{{\Illuminate\Support\Facades\Crypt::decryptString($wallet->public_key)}}</code></div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-4">Private Key :</div>
-                                <div class="col-8"><code>{{$wallet->private_key}}</code></div>
+                                <div class="col-8"><code>{{\Illuminate\Support\Facades\Crypt::decryptString($wallet->private_key)}}</code></div>
                             </div>
                         </div>
                         <div>

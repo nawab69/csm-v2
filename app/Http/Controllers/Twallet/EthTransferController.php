@@ -50,13 +50,13 @@ class EthTransferController extends Controller
 
         $address = $this->getAddress();
 
-        $response = Http::get('https://api.blockcypher.com/v1/beth/test/addrs/'.$address.'/balance');
+        $response = Http::get('https://api.blockcypher.com/v1/eth/main/addrs/'.$address.'/balance');
 
         $balance = $response->json('balance');
 
         $balance = weiToEth($balance);
 
-        $response = Http::post('https://api.blockcypher.com/v1/beth/test/txs/new?token=6a525a5b207849a9858f884f6623adc7',[
+        $response = Http::post('https://api.blockcypher.com/v1/eth/main/txs/new?token='.env('BLOCKCHYPER_TOKEN'),[
             'inputs' =>[ [
                 "addresses" => [$address]
             ]],
@@ -110,7 +110,7 @@ class EthTransferController extends Controller
         $private_key = Crypt::decryptString($key);
         $signature = Signer::sign($tosign,$private_key);
         $res = array_merge($session,["signatures" => [$signature]]);
-        $response = Http::post('https://api.blockcypher.com/v1/beth/test/txs/send?token=6a525a5b207849a9858f884f6623adc7',$res);
+        $response = Http::post('https://api.blockcypher.com/v1/eth/main/txs/send?token='.env('BLOCKCHYPER_TOKEN'),$res);
 
         if(!$response->json('error')){
 
@@ -139,7 +139,7 @@ class EthTransferController extends Controller
         $address = auth()->user()->eth->address;
         $address = Crypt::decryptString($address);
 
-        $response = Http::get('https://api.blockcypher.com/v1/beth/test/addrs/'.$address.'/balance');
+        $response = Http::get('https://api.blockcypher.com/v1/eth/main/addrs/'.$address.'/balance');
 
         $balance = $response->json('balance');
 

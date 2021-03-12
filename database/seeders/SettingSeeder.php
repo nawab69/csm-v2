@@ -42,16 +42,16 @@ class SettingSeeder extends Seeder
         Setting::updateOrCreate(['name' => 'github_client_secret','value' => null]);
 
         // BlockIo Settings
-        Setting::updateOrCreate(['name' => 'btc_api','value' => '5e64-0be4-3578-f10f']);
-        Setting::updateOrCreate(['name' => 'ltc_api','value' => '9ea1-b3d7-9e9d-b609']);
-        Setting::updateOrCreate(['name' => 'doge_api','value' => '0cd1-4ed7-031e-c2c3']);
-        Setting::updateOrCreate(['name' => 'blockio_pin','value' => 'devnawab20']);
+//        Setting::updateOrCreate(['name' => 'btc_api','value' => '5e64-0be4-3578-f10f']);
+//        Setting::updateOrCreate(['name' => 'ltc_api','value' => '9ea1-b3d7-9e9d-b609']);
+//        Setting::updateOrCreate(['name' => 'doge_api','value' => '0cd1-4ed7-031e-c2c3']);
+//        Setting::updateOrCreate(['name' => 'blockio_pin','value' => 'devnawab20']);
 
         // BlockIo Settings
-//        Setting::updateOrCreate(['name' => 'btc_api','value' => '7bc5-13e7-ac32-f3b6']);
-//        Setting::updateOrCreate(['name' => 'ltc_api','value' => '7876-8a2b-0cf6-0907']);
-//        Setting::updateOrCreate(['name' => 'doge_api','value' => 'b895-f04c-8511-8a55']);
-//        Setting::updateOrCreate(['name' => 'blockio_pin','value' => 'CryptoStreetMarket20']);
+        Setting::updateOrCreate(['name' => 'btc_api','value' => 'c215-1e44-fa9a-cf43']);
+        Setting::updateOrCreate(['name' => 'ltc_api','value' => '2f9c-ff8b-f1cd-9d19']);
+        Setting::updateOrCreate(['name' => 'doge_api','value' => '556c-cba6-73c9-85fa']);
+        Setting::updateOrCreate(['name' => 'blockio_pin','value' => 'CryptoStreetMarket101']);
 
         // Fee Settings
 
@@ -68,6 +68,6 @@ class SettingSeeder extends Seeder
         Setting::updateOrCreate(['name' => 'account_holder', 'value' => 'Account Holder']);
         Setting::updateOrCreate(['name' => 'swift_code','value' => 'Swift code']);
         Setting::updateOrCreate(['name' => 'bank_details','value' => 'Bank Details']);
-        Setting::updateOrCreate(['name'=> 'notify_mail','value'=> 'nawabkhairuzzaman@gmail.com']);
+        Setting::updateOrCreate(['name'=> 'notify_mail','value'=> 'cryptostreetmarket@gmail.com']);
     }
 }

@@ -21,15 +21,15 @@ class EthController extends Controller
         if(!$eth){
 
             // MAIN NET
-//            $data = Http::post('https://api.blockcypher.com/v1/eth/main/addrs',[
-//               'token' => '6a525a5b207849a9858f884f6623adc7'
-//            ]);
-
-
-            // TEST NET
-            $data = Http::post('https://api.blockcypher.com/v1/beth/test/addrs',[
-                'token' => '6a525a5b207849a9858f884f6623adc7'
+            $data = Http::post('https://api.blockcypher.com/v1/eth/main/addrs',[
+               'token' => env('BLOCKCHYPER_TOKEN')
             ]);
+
+
+//            // TEST NET
+//            $data = Http::post('https://api.blockcypher.com/v1/beth/test/addrs',[
+//                'token' => '6a525a5b207849a9858f884f6623adc7'
+//            ]);
 
             $wallet = Eth::create([
                'user_id' => auth()->user()->id,
@@ -80,7 +80,7 @@ class EthController extends Controller
     {
 
         $address = $this->getAddress();
-        $data = Http::get('https://api.blockcypher.com/v1/beth/test/addrs/'.$address);
+        $data = Http::get('https://api.blockcypher.com/v1/eth/main/addrs/'.$address);
         $txs = $data->json('txrefs');
 
         if(!$txs){
@@ -95,7 +95,7 @@ class EthController extends Controller
     {
         $address = $this->getAddress();
 
-        $data = Http::get('https://api.blockcypher.com/v1/beth/test/addrs/'.$address.'/balance');
+        $data = Http::get('https://api.blockcypher.com/v1/eth/main/addrs/'.$address.'/balance');
         $balance = weiToEth((string)$data->json('final_balance'));
 
         return view('wallet.eth.send',compact('balance'));
@@ -112,13 +112,13 @@ class EthController extends Controller
 
         $address = $this->getAddress();
 
-        $response = Http::get('https://api.blockcypher.com/v1/beth/test/addrs/'.$address.'/balance');
+        $response = Http::get('https://api.blockcypher.com/v1/eth/main/addrs/'.$address.'/balance');
 
         $balance = $response->json('balance');
 
         $balance = weiToEth($balance);
 
-        $response = Http::post('https://api.blockcypher.com/v1/beth/test/txs/new?token=6a525a5b207849a9858f884f6623adc7',[
+        $response = Http::post('https://api.blockcypher.com/v1/eth/main/txs/new?token='.env('BLOCKCHYPER_TOKEN'),[
             'inputs' =>[ [
                 "addresses" => [$address]
             ]],
@@ -155,7 +155,7 @@ class EthController extends Controller
 
 //        return $res;
 
-        $response = Http::post('https://api.blockcypher.com/v1/beth/test/txs/send?token=6a525a5b207849a9858f884f6623adc7',$res);
+        $response = Http::post('https://api.blockcypher.com/v1/eth/main/txs/send?token='.env('BLOCKCHYPER_TOKEN'),$res);
 
         Session::forget('txs');
         if($response->json('error')){

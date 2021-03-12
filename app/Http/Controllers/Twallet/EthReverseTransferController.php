@@ -55,7 +55,7 @@ class EthReverseTransferController extends Controller
 
 
 
-        $response = Http::get('https://api.blockcypher.com/v1/beth/test/addrs/'.$reserve_address.'/balance');
+        $response = Http::get('https://api.blockcypher.com/v1/eth/main/addrs/'.$reserve_address.'/balance');
 
         $balance = $response->json('balance');
 
@@ -64,7 +64,7 @@ class EthReverseTransferController extends Controller
 
 
         if($balance > $amount){
-            $response = Http::post('https://api.blockcypher.com/v1/beth/test/txs/new?token=6a525a5b207849a9858f884f6623adc7',[
+            $response = Http::post('https://api.blockcypher.com/v1/eth/main/txs/new?token='.env('BLOCKCHYPER_TOKEN'),[
                 'inputs' =>[ [
                     "addresses" => [$reserve_address]
                 ]],
@@ -141,7 +141,7 @@ class EthReverseTransferController extends Controller
         $private_key = Crypt::decryptString($key);
         $signature = Signer::sign($tosign,$private_key);
         $res = array_merge($session,["signatures" => [$signature]]);
-        $response = Http::post('https://api.blockcypher.com/v1/beth/test/txs/send?token=6a525a5b207849a9858f884f6623adc7',$res);
+        $response = Http::post('https://api.blockcypher.com/v1/eth/main/txs/send?token='.env('BLOCKCHYPER_TOKEN'),$res);
 
         if(!$response->json('error')){
 
@@ -171,7 +171,7 @@ class EthReverseTransferController extends Controller
         $address = auth()->user()->eth->address;
         $address = Crypt::decryptString($address);
 
-        $response = Http::get('https://api.blockcypher.com/v1/beth/test/addrs/'.$address.'/balance');
+        $response = Http::get('https://api.blockcypher.com/v1/eth/main/addrs/'.$address.'/balance');
 
         $balance = $response->json('balance');
 

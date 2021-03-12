@@ -79,10 +79,10 @@ class MethodSeeder extends Seeder
             'type' => 'Gift Card',
             'status' => 1
         ]);
-        Method::create([
-            'name' => 'Netflix Gift Card',
-            'type' => 'Gift Card',
-            'status' => 1
-        ]);
+//        Method::create([
+//            'name' => 'Netflix Gift Card',
+//            'type' => 'Gift Card',
+//            'status' => 1
+//        ]);
     }
 }

@@ -111,7 +111,16 @@ class EthReverseTransferController extends Controller
         $amount = $session['amount'];
         $total = $session['total'];
         $session = $session['transaction'];
+
+
+        if($total > auth()->user()->twallet->main_eth){
+            notify()->error('Insufficient Balance or Fee','Error!');
+            Session::forget('transfer_eth_reverse');
+            return redirect()->back();
+        }
+
         $response = $this->sendNow($session,$amount,$total);
+
 
         if(Session::has('transfer_eth_reverse'))
             Session::forget('transfer_eth_reverse');
@@ -127,11 +136,6 @@ class EthReverseTransferController extends Controller
     protected function sendNow($session,$amount,$total)
     {
 
-        if($total > auth()->user()->twallet->main_eth){
-            notify()->error('Insufficient Balance or Fee','Error!');
-            Session::forget('transfer_eth_reverse');
-            return redirect()->back();
-        }
         $tosign = $session['tosign'][0];
         $key = Reserve::where('name','eth')->first()->private_key;
         $private_key = Crypt::decryptString($key);

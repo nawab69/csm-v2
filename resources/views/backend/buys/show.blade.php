@@ -15,26 +15,26 @@
             <div class="page-title-actions">
                 <div class="d-inline-block dropdown">
 
-                    @if($order->status == 'pending')
-                    <button type="button" class="btn btn-primary btn-lg"
-                            onclick="processDeposit()">
-                        <i class="fas fa-trash-alt"></i>
-                        <span>Process Order</span>
-                    </button>
-                    <button type="button" class="btn btn-danger btn-lg"
-                            onclick="cancelDeposit()">
-                        <i class="fas fa-trash-alt"></i>
-                        <span>Cancel Order</span>
-                    </button>
-                    @endif
+{{--                    @if($order->status == 'pending')--}}
+{{--                    <button type="button" class="btn btn-primary btn-lg"--}}
+{{--                            onclick="processDeposit()">--}}
+{{--                        <i class="fas fa-trash-alt"></i>--}}
+{{--                        <span>Process Order</span>--}}
+{{--                    </button>--}}
+{{--                    <button type="button" class="btn btn-danger btn-lg"--}}
+{{--                            onclick="cancelDeposit()">--}}
+{{--                        <i class="fas fa-trash-alt"></i>--}}
+{{--                        <span>Cancel Order</span>--}}
+{{--                    </button>--}}
+{{--                    @endif--}}
 
-                    @if($order->status == 'processing')
-                        <button type="button" class="btn btn-success btn-lg"
-                                onclick="completeDeposit()">
-                            <i class="fas fa-check"></i>
-                            <span>Complete Order</span>
-                        </button>
-                    @endif
+{{--                    @if($order->status == 'processing')--}}
+{{--                        <button type="button" class="btn btn-success btn-lg"--}}
+{{--                                onclick="completeDeposit()">--}}
+{{--                            <i class="fas fa-check"></i>--}}
+{{--                            <span>Complete Order</span>--}}
+{{--                        </button>--}}
+{{--                    @endif--}}
 
                     <form id="process"
                           action="{{ route('app.buys.process',$order->id) }}" method="POST"

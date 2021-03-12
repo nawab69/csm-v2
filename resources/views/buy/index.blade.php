@@ -46,6 +46,7 @@
                                             <option value="btc">BTC</option>
                                             <option value="ltc">LTC</option>
                                             <option value="doge">DOGE</option>
+                                            <option value="eth">ETH</option>
                                         </select>
                                     </div>
                                 </div>

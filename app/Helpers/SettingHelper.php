@@ -60,3 +60,22 @@ if (!function_exists('ethToWei')) {
     }
 }
 
+if (!function_exists('addFee')) {
+
+
+    function addFee($coin,$fee)
+    {
+
+       $feeModel = \App\Models\Charge::where('coin',$coin)->first();
+
+
+       $add  = (double) $feeModel->value +  $fee;
+
+       $feeModel->update([
+           'value' => $add
+       ]);
+
+       return true;
+    }
+}
+

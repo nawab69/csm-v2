@@ -7,6 +7,7 @@ use App\Models\Balance;
 use App\Models\Buy;
 use App\Models\Currency;
 use App\Models\Setting;
+use App\Models\Twallet;
 use Codenixsv\CoinGeckoApi\CoinGeckoClient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -49,6 +50,8 @@ class BuyController extends Controller
             $c1 = 'litecoin';
         }elseif ($request->to_currency == 'doge'){
             $c1 = 'dogecoin';
+        }elseif ($request->to_currency == 'eth'){
+            $c1 = 'ethereum';
         }
 
         if ($request->from_currency) {
@@ -64,12 +67,12 @@ class BuyController extends Controller
             $transaction_amount =   $request->amount / ($data[$c1]['usd'] * Currency::find($request->from_currency)->default_rate);
         }
         $fee = ($transaction_amount /100) * Setting::get('fee_buy',0);
+        $fee = round($fee,8,PHP_ROUND_HALF_DOWN);
         $transaction_amount -= $fee;
         $transaction_amount = round($transaction_amount,8,PHP_ROUND_HALF_DOWN);
 
 
-
-        Buy::create([
+        $order = Buy::create([
            'trx_id' => Str::orderedUuid(),
            'user_id' => auth()->user()->id,
            'currency_id' => $request->from_currency,
@@ -78,9 +81,51 @@ class BuyController extends Controller
            'sell_amount'   => $transaction_amount,
         ]);
 
-        notify()->success('Buy Request Successfull!', 'Success');
+        $amount = $order->amount;
+        $sellAmount = $order->sell_amount;
+        $currency = $order->currency_id;
+        $balance = $order->user->balances()->where('currency_id',$currency)->first();
+
+        if($balance->balance > $amount){
+            $balance->update([
+               'balance' =>  $balance->balance - $amount
+            ]);
+
+
+            $twallet = Twallet::where('user_id',auth()->user()->id)->first();
+
+
+            $name = 'main_'.$request->to_currency;
+
+            if($request->to_currency != 'eth'){
+                $twallet->update([
+                    $name => $twallet[$name] + $sellAmount
+                ]);
+            }else{
+                $twallet->update([
+                    'main_eth' => ( ethToWei($twallet->main_eth) + ethToWei($sellAmount))
+                ]);
+            }
+
+
+
+            if(addFee($request->to_currency,$fee)){
+                $order->update([
+                    'status' => 'completed'
+                ]);
+            }else{
+                $order->update([
+                    'status' => 'processing'
+                ]);
+            }
+
+            notify()->success('Buy Request Successfull!', 'Success');
+        }else{
+            notify()->error('Something went Wrong !','error');
+        }
 
         return back();
+
     }
 
     public function calculateBuy(Request $request)
@@ -99,6 +144,8 @@ class BuyController extends Controller
             $c1 = 'litecoin';
         }elseif ($request->toCurrency == 'doge'){
             $c1 = 'dogecoin';
+        }elseif ($request->toCurrency == 'eth'){
+            $c1 = 'ethereum';
         }
 
         if ($request->fromCurrency) {

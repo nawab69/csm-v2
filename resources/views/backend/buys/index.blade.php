@@ -33,7 +33,7 @@
                             <th class="text-center">Sell Amount</th>
                             <th class="text-center">Status</th>
                             <th class="text-center">Order At</th>
-                            <th class="text-center">Actions</th>
+{{--                            <th class="text-center">Actions</th>--}}
                         </tr>
                         </thead>
                         <tbody>
@@ -57,12 +57,12 @@
                                         @endif
                                     </td>
                                     <td class="text-center">{{ $deposit->created_at->diffForHumans() }}</td>
-                                    <td class="text-center">
-                                        <a class="btn btn-secondary btn-sm" href="{{ route('app.buys.show',$deposit->id) }}"><i
-                                                class="fas fa-eye"></i>
-                                            <span>Show</span>
-                                        </a>
-                                    </td>
+{{--                                    <td class="text-center">--}}
+{{--                                        <a class="btn btn-secondary btn-sm" href="{{ route('app.buys.show',$deposit->id) }}"><i--}}
+{{--                                                class="fas fa-eye"></i>--}}
+{{--                                            <span>Show</span>--}}
+{{--                                        </a>--}}
+{{--                                    </td>--}}
                                 </tr>
                             @endforeach
                         </tbody>

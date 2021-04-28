@@ -106,10 +106,6 @@ class HomeController extends Controller
 
         $trade_wallet = auth()->user()->twallet;
 
-
-
-
-
         return view('home',compact('btc','ltc','doge','deposits','withdraws','wallet','rate','balances','count','trades','eth','ether','trade_wallet'));
     }
 

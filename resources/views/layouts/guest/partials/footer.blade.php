@@ -99,7 +99,7 @@
             <div class="row">
                 <div class="col-xs-12">
                     <!-- Copyright Text Starts -->
-                    <p class="text-center">Copyright © 2021 Crypto Street Market All Rights Reserved | Created with Love by <a href="https://fiverr.com/nawab_kibria" target="_blank">Nawab</a></p>
+                    <p class="text-center">Copyright © 2021 Crypto Street Market All Rights Reserved </p>
                     <!-- Copyright Text Ends -->
                 </div>
             </div>

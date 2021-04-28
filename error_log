@@ -10,3 +10,9 @@
 [09-Jan-2021 13:38:02 UTC] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 32768 bytes) in /home/cryptos1/public_html/vendor/symfony/error-handler/Error/FatalError.php on line 1
 [09-Jan-2021 13:40:01 UTC] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 8192 bytes) in /home/cryptos1/public_html/vendor/intervention/image/src/Intervention/Image/Gd/Decoder.php on line 138
 [09-Jan-2021 13:40:01 UTC] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 32768 bytes) in /home/cryptos1/public_html/vendor/symfony/error-handler/Error/FatalError.php on line 1
+[12-Mar-2021 19:32:55 UTC] PHP Warning:  copy(): https:// wrapper is disabled in the server configuration by allow_url_fopen=0 in Command line code on line 1
+[12-Mar-2021 19:32:55 UTC] PHP Warning:  copy(https://getcomposer.org/installer): failed to open stream: no suitable wrapper could be found in Command line code on line 1
+[12-Mar-2021 19:33:12 UTC] PHP Warning:  hash_file(composer-setup.php): failed to open stream: No such file or directory in Command line code on line 1
+[12-Mar-2021 19:33:12 UTC] PHP Warning:  unlink(composer-setup.php): No such file or directory in Command line code on line 1
+[12-Mar-2021 19:34:22 UTC] PHP Warning:  copy(): https:// wrapper is disabled in the server configuration by allow_url_fopen=0 in Command line code on line 1
+[12-Mar-2021 19:34:22 UTC] PHP Warning:  copy(https://getcomposer.org/installer): failed to open stream: no suitable wrapper could be found in Command line code on line 1

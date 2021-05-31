@@ -33,7 +33,7 @@ class AuthController extends Controller
             return $this->respondWithToken($token);
         }
 
-        return response()->json(['error' => 'Unauthorized'], 401);
+        return response()->json($this->errorResponse('Invalid Login details'), 401);
     }
 
     /**
@@ -43,7 +43,8 @@ class AuthController extends Controller
      */
     public function me()
     {
-        return response()->json(auth('api')->user());
+        $user = auth('api')->user();
+        return response()->json($this->successResponse($user));
     }
 
     /**
@@ -77,11 +78,11 @@ class AuthController extends Controller
      */
     protected function respondWithToken($token)
     {
-        return response()->json([
+        return response()->json($this->successResponse([
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth('api')->factory()->getTTL() * 60
-        ]);
+        ]));
     }
 
     /**
@@ -92,5 +93,21 @@ class AuthController extends Controller
     public function guard()
     {
         return Auth::guard();
+    }
+
+    public function successResponse($data): array
+    {
+        return [
+            'status' => 'success',
+            'data' => $data,
+        ];
+    }
+
+    public function errorResponse($message): array
+    {
+            return [
+                'status' => 'error',
+                'message' => $message
+            ];
     }
 }

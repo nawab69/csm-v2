@@ -9,7 +9,6 @@ use App\Models\Menu;
 use App\Models\MenuItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 use RealRashid\SweetAlert\Facades\Alert;
 

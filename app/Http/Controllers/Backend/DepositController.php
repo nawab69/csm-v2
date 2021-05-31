@@ -7,6 +7,7 @@ use App\Models\Deposit;
 use App\Notifications\DepositCancelled;
 use App\Notifications\DepositCompleted;
 use App\Notifications\DepositProcessing;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -27,6 +28,13 @@ class DepositController extends Controller
         return view('backend.deposits.show', compact('deposit'));
     }
 
+    /**
+     * @param Request $request
+     * @param Deposit $deposit
+     * @return RedirectResponse
+     * if the deposit request is pending then it will work.
+     * It will add the deposit amount to escrow
+     */
     public function process(Request $request, Deposit $deposit)
     {
         Gate::authorize('app.deposits.edit');
@@ -52,6 +60,15 @@ class DepositController extends Controller
         return back();
     }
 
+
+    /**
+     * @param Request $request
+     * @param Deposit $deposit
+     * @return RedirectResponse
+     * if the deposit order status processing, then it will work , otherwise fail
+     * Remove deposit amount from escrow
+     * Add deposit amount to balance
+     */
     public function complete(Request $request, Deposit $deposit)
     {
         Gate::authorize('app.deposits.edit');
@@ -59,23 +76,18 @@ class DepositController extends Controller
             $amount = $deposit->amount;
             $currency = $deposit->currency_id;
             $balance = $deposit->user->balances()->where('currency_id',$currency)->first();
-
             $escrow = $balance->escrow;
             $wallet = $balance->balance;
-
             if ($escrow < $amount) {
                 notify()->error('Insufficient Balance in User escrow.', 'Error');
                 return back();
             }
-
             $balance->update([
                 'escrow' => $escrow - $amount,
             ]);
-
             $balance->update([
                 'balance' => $wallet + $amount,
             ]);
-
             $deposit->update([
                 'status' => 'completed',
             ]);
@@ -87,6 +99,13 @@ class DepositController extends Controller
         return back();
     }
 
+    /**
+     * @param Request $request
+     * @param Deposit $deposit
+     * @return RedirectResponse
+     * if deposit status is pending then it will work.
+     * It will just cancel the deposit.
+     */
     public function cancel(Request $request, Deposit $deposit)
     {
         Gate::authorize('app.deposits.destroy');
@@ -103,6 +122,12 @@ class DepositController extends Controller
         return back();
     }
 
+    /**
+     * @param Request $request
+     * @param Deposit $deposit
+     * @return RedirectResponse
+     * add a comment to the deposit order
+     */
     public function comment(Request $request, Deposit $deposit)
     {
         Gate::authorize('app.deposits.edit');

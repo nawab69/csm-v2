@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Setting;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\App;
 
 class SettingSeeder extends Seeder
 {
@@ -41,20 +42,24 @@ class SettingSeeder extends Seeder
         Setting::updateOrCreate(['name' => 'github_client_id','value' => null]);
         Setting::updateOrCreate(['name' => 'github_client_secret','value' => null]);
 
-        // BlockIo Settings
-//        Setting::updateOrCreate(['name' => 'btc_api','value' => '5e64-0be4-3578-f10f']);
-//        Setting::updateOrCreate(['name' => 'ltc_api','value' => '9ea1-b3d7-9e9d-b609']);
-//        Setting::updateOrCreate(['name' => 'doge_api','value' => '0cd1-4ed7-031e-c2c3']);
-//        Setting::updateOrCreate(['name' => 'blockio_pin','value' => 'devnawab20']);
 
-        // BlockIo Settings
-        Setting::updateOrCreate(['name' => 'btc_api','value' => 'c215-1e44-fa9a-cf43']);
-        Setting::updateOrCreate(['name' => 'ltc_api','value' => '2f9c-ff8b-f1cd-9d19']);
-        Setting::updateOrCreate(['name' => 'doge_api','value' => '556c-cba6-73c9-85fa']);
-        Setting::updateOrCreate(['name' => 'blockio_pin','value' => 'CryptoStreetMarket101']);
+        if(App::environment('local')){
+            // @ BlockIo Settings //
+            Setting::updateOrCreate(['name' => 'btc_api','value' => '5e64-0be4-3578-f10f']);
+            Setting::updateOrCreate(['name' => 'ltc_api','value' => '9ea1-b3d7-9e9d-b609']);
+            Setting::updateOrCreate(['name' => 'doge_api','value' => '0cd1-4ed7-031e-c2c3']);
+            Setting::updateOrCreate(['name' => 'blockio_pin','value' => 'devnawab20']);
+        }else{
+            // BlockIo Settings
+            Setting::updateOrCreate(['name' => 'btc_api','value' => 'c215-1e44-fa9a-cf43']);
+            Setting::updateOrCreate(['name' => 'ltc_api','value' => '2f9c-ff8b-f1cd-9d19']);
+            Setting::updateOrCreate(['name' => 'doge_api','value' => '556c-cba6-73c9-85fa']);
+            Setting::updateOrCreate(['name' => 'blockio_pin','value' => 'CryptoStreetMarket101']);
+        }
+
+
 
         // Fee Settings
-
         Setting::updateOrCreate(['name' => 'fee_send_usd', 'value' => 2.5]);
         Setting::updateOrCreate(['name' => 'fee_send_naira', 'value' => 2.5]);
         Setting::updateOrCreate(['name' => 'fee_withdraw_usd', 'value' => 2.5]);
@@ -63,11 +68,12 @@ class SettingSeeder extends Seeder
         Setting::updateOrCreate(['name' => 'fee_buy', 'value' => 1.5]);
         Setting::updateOrCreate(['name' => 'naira_rate', 'value' => 420]);
         Setting::updateOrCreate(['name' => 'trade_fee', 'value' => 1]);
-        Setting::updateOrCreate(['name' => 'bank_name', 'value' => 'Bank_name']);
-        Setting::updateOrCreate(['name' => 'account_no', 'value' => 'Account No']);
-        Setting::updateOrCreate(['name' => 'account_holder', 'value' => 'Account Holder']);
-        Setting::updateOrCreate(['name' => 'swift_code','value' => 'Swift code']);
-        Setting::updateOrCreate(['name' => 'bank_details','value' => 'Bank Details']);
+        Setting::updateOrCreate(['name' => 'bank_name', 'value' => 'ABC BANK']);
+        Setting::updateOrCreate(['name' => 'account_no', 'value' => '123654236532']);
+        Setting::updateOrCreate(['name' => 'account_holder', 'value' => 'Crypto Street Market']);
+        Setting::updateOrCreate(['name' => 'swift_code','value' => 'BXXXXXXXXX']);
+        Setting::updateOrCreate(['name' => 'bank_details','value' => 'abc bank, jh , usfdigh jkshgfg']);
         Setting::updateOrCreate(['name'=> 'notify_mail','value'=> 'cryptostreetmarket@gmail.com']);
+
     }
 }

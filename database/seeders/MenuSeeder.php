@@ -39,14 +39,6 @@ class MenuSeeder extends Seeder
         MenuItem::updateOrCreate(['menu_id' => $menu->id, 'type' => 'item','parent_id' => null, 'order' => 17, 'title' => 'All Trades', 'url' => "/app/trades", 'icon_class' => 'pe-7s-angle-up-circle']);
         MenuItem::updateOrCreate(['menu_id' => $menu->id, 'type' => 'item','parent_id' => null, 'order' => 18, 'title' => 'Dispute Trades', 'url' => "/app/dispute-trades", 'icon_class' => 'pe-7s-angle-up-circle']);
 
-//        MenuItem::updateOrCreate(['menu_id' => $menu->id, 'type' => 'divider', 'parent_id' => null, 'order' => 13, 'divider_title' => 'Vendor Control']);
-//        MenuItem::updateOrCreate(['menu_id' => $menu->id, 'type' => 'item','parent_id' => null, 'order' => 14, 'title' => 'Buy Orders', 'url' => "/app/orders/buys", 'icon_class' => 'pe-7s-angle-down-circle']);
-//        MenuItem::updateOrCreate(['menu_id' => $menu->id, 'type' => 'item','parent_id' => null, 'order' => 15, 'title' => 'Sell Orders', 'url' => "/app/orders/sells", 'icon_class' => 'pe-7s-angle-up-circle']);
-//        MenuItem::updateOrCreate(['menu_id' => $menu->id, 'type' => 'item','parent_id' => null, 'order' => 16, 'title' => 'Cards for Buy', 'url' => "/app/giftcard/buy", 'icon_class' => 'pe-7s-angle-down-circle']);
-//        MenuItem::updateOrCreate(['menu_id' => $menu->id, 'type' => 'item','parent_id' => null, 'order' => 17, 'title' => 'Cards for Sell', 'url' => "/app/giftcard/sell", 'icon_class' => 'pe-7s-angle-up-circle']);
-
-
-
         MenuItem::updateOrCreate(['menu_id' => $menu->id, 'type' => 'divider', 'parent_id' => null, 'order' => 19, 'divider_title' => 'System']);
         MenuItem::updateOrCreate(['menu_id' => $menu->id, 'type' => 'item', 'parent_id' => null, 'order' => 20, 'title' => 'Menus', 'url' => "/app/menus", 'icon_class' => 'pe-7s-menu']);
         MenuItem::updateOrCreate(['menu_id' => $menu->id, 'type' => 'item', 'parent_id' => null, 'order' => 21, 'title' => 'Backups', 'url' => "/app/backups", 'icon_class' => 'pe-7s-cloud']);

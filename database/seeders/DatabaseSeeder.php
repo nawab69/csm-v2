@@ -22,7 +22,6 @@ class DatabaseSeeder extends Seeder
         $this->call(BalanceSeeder::class);
         $this->call(PaymentMethodSeeder::class);
         $this->call(MethodSeeder::class);
-        $this->call(OfferSeeder::class);
         $this->call(ChargeSeeder::class);
     }
 }

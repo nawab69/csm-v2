@@ -94,32 +94,32 @@ class BalanceSeeder extends Seeder
             'escrow'  => 0
         ]);
 
-        // USER 3
-
-        Balance::create([
-            'user_id' => 3,
-            'currency_id' => 1,
-            'balance' => 10000,
-            'escrow'  => 0
-        ]);
-        Balance::create([
-            'user_id' => 3,
-            'currency_id' => 2,
-            'balance' => 10000,
-            'escrow'  => 0
-        ]);
-        Balance::create([
-            'user_id' => 3,
-            'currency_id' => 3,
-            'balance' => 10000,
-            'escrow'  => 0
-        ]);
-        Balance::create([
-            'user_id' => 3,
-            'currency_id' => 4,
-            'balance' => 10000,
-            'escrow'  => 0
-        ]);
+//        // USER 3
+//
+//        Balance::create([
+//            'user_id' => 3,
+//            'currency_id' => 1,
+//            'balance' => 10000,
+//            'escrow'  => 0
+//        ]);
+//        Balance::create([
+//            'user_id' => 3,
+//            'currency_id' => 2,
+//            'balance' => 10000,
+//            'escrow'  => 0
+//        ]);
+//        Balance::create([
+//            'user_id' => 3,
+//            'currency_id' => 3,
+//            'balance' => 10000,
+//            'escrow'  => 0
+//        ]);
+//        Balance::create([
+//            'user_id' => 3,
+//            'currency_id' => 4,
+//            'balance' => 10000,
+//            'escrow'  => 0
+//        ]);
 
 
     }

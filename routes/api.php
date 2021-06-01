@@ -28,4 +28,14 @@ Route::group([
     Route::post('refresh', [AuthController::class,'refresh']);
     Route::post('me', [AuthController::class,'me']);
 
+
+
+});
+
+Route::group([
+    'middleware' => 'auth:api',
+    'namespace' => 'App\Http\Controllers',
+], function ($router){
+    Route::get('balances/fiat',[\App\Http\Controllers\Api\BalanceController::class,'getFiatBalance']);
+    Route::get('balances/crypto',[\App\Http\Controllers\Api\BalanceController::class,'getCryptoBalance']);
 });

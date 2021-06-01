@@ -143,10 +143,6 @@ class HomeController extends Controller
         $response = Http::get('https://api.blockcypher.com/v1/beth/test/addrs/'.$address.'/balance');
 
         $balance = $response->json('balance');
-
-
-
-
         $converter = new Converter();
 
         $ether = round($converter->fromWei( (string)$balance,'ether'),8,PHP_ROUND_HALF_DOWN);

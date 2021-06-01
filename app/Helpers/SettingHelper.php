@@ -79,3 +79,21 @@ if (!function_exists('addFee')) {
     }
 }
 
+function successResponse($data): array
+{
+    return [
+        'status' => 'success',
+        'data' => $data,
+    ];
+}
+
+function errorResponse($message): array
+{
+    return [
+        'status' => 'error',
+        'message' => $message
+    ];
+}
+
+
+

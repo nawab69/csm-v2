@@ -34,23 +34,23 @@ class UserSeeder extends Seeder
             'id_status' => 'not_submit',
         ]);
 
-//        // Create user
-//        $userRole = Role::where('slug','user')->first();
-//        User::updateOrCreate([
-//            'role_id' => $userRole->id,
-//            'first_name' => 'John',
-//            'last_name' => 'Doe',
-//            'username'  => 'johndoe',
-//            'email' => 'user@mail.com',
-//            'phone' => '1345767',
-//            'password' => Hash::make('password'),
-//            'status' => true
-//        ])->escrow()->updateOrCreate([
-//            'btc' => 0,
-//        ])->user->kyc()->updateOrCreate([
-//            'id_status' => 'not_submit',
-//        ]);
-//
+        // Create user
+        $userRole = Role::where('slug','user')->first();
+        User::updateOrCreate([
+            'role_id' => $userRole->id,
+            'first_name' => 'John',
+            'last_name' => 'Doe',
+            'username'  => 'johndoe',
+            'email' => 'user@mail.com',
+            'phone' => '1345767',
+            'password' => Hash::make('password'),
+            'status' => true
+        ])->escrow()->updateOrCreate([
+            'btc' => 0,
+        ])->user->kyc()->updateOrCreate([
+            'id_status' => 'not_submit',
+        ]);
+
 //        // Create user 2
 //        $userRole = Role::where('slug','user')->first();
 //        User::updateOrCreate([
@@ -68,6 +68,6 @@ class UserSeeder extends Seeder
 //            'id_status' => 'not_submit',
 //        ]);
 
-//        Bank::factory()->count(8)->create();
+        Bank::factory()->count(8)->create();
     }
 }

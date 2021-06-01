@@ -45,10 +45,10 @@ class SettingSeeder extends Seeder
 
         if(App::environment('local')){
             // @ BlockIo Settings //
-            Setting::updateOrCreate(['name' => 'btc_api','value' => '5e64-0be4-3578-f10f']);
-            Setting::updateOrCreate(['name' => 'ltc_api','value' => '9ea1-b3d7-9e9d-b609']);
-            Setting::updateOrCreate(['name' => 'doge_api','value' => '0cd1-4ed7-031e-c2c3']);
-            Setting::updateOrCreate(['name' => 'blockio_pin','value' => 'devnawab20']);
+            Setting::updateOrCreate(['name' => 'btc_api','value' => 'f0f8-0faf-967d-fe8c']);
+            Setting::updateOrCreate(['name' => 'ltc_api','value' => '3b44-3c27-07ce-5d69']);
+            Setting::updateOrCreate(['name' => 'doge_api','value' => 'c873-3fde-7627-351b']);
+            Setting::updateOrCreate(['name' => 'blockio_pin','value' => 'nawab01700792973kibria']);
         }else{
             // BlockIo Settings
             Setting::updateOrCreate(['name' => 'btc_api','value' => 'c215-1e44-fa9a-cf43']);

@@ -51,22 +51,6 @@ class UserSeeder extends Seeder
             'id_status' => 'not_submit',
         ]);
 
-//        // Create user 2
-//        $userRole = Role::where('slug','user')->first();
-//        User::updateOrCreate([
-//            'role_id' => $userRole->id,
-//            'first_name' => 'Jane',
-//            'last_name' => 'Doe',
-//            'username'  => 'janedoe',
-//            'email' => 'user2@mail.com',
-//            'phone' => '1345767897',
-//            'password' => Hash::make('password'),
-//            'status' => true
-//        ])->escrow()->updateOrCreate([
-//            'btc' => 0,
-//        ])->user->kyc()->updateOrCreate([
-//            'id_status' => 'not_submit',
-//        ]);
 
         Bank::factory()->count(8)->create();
     }

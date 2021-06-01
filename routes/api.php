@@ -38,4 +38,5 @@ Route::group([
 ], function ($router){
     Route::get('balances/fiat',[\App\Http\Controllers\Api\BalanceController::class,'getFiatBalance']);
     Route::get('balances/crypto',[\App\Http\Controllers\Api\BalanceController::class,'getCryptoBalance']);
+    Route::get('send/fee',[\App\Http\Controllers\Api\CryptoSendController::class,'calculate']);
 });

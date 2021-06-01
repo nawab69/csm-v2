@@ -9,9 +9,12 @@ use App\Models\Balance;
 use App\Models\Trade;
 use App\Models\Twallet;
 use App\Models\Wallet;
+use Bezhanov\Ethereum\Converter;
 use Codenixsv\CoinGeckoApi\CoinGeckoClient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Http;
 
 class BalanceController extends Controller
 {
@@ -87,5 +90,20 @@ class BalanceController extends Controller
             $ether = 0;
         }
         return successResponse(['btc'=>$btc,'ltc'=>$ltc,'doge'=>$doge,'eth'=>$eth]);
+    }
+
+    protected function checkEth(): float
+    {
+        $address = auth('api')->user()->eth->address;
+        $address = Crypt::decryptString($address);
+
+        $response = Http::get('https://api.blockcypher.com/v1/beth/test/addrs/'.$address.'/balance');
+
+        $balance = $response->json('balance');
+        $converter = new Converter();
+
+        $ether = round($converter->fromWei( (string)$balance,'ether'),8,PHP_ROUND_HALF_DOWN);
+
+        return $ether;
     }
 }
